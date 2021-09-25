@@ -12,7 +12,7 @@ namespace ZennoLabWebAPI.EntityContext
         public string Name { get; set; }
 
         [Required]
-        public DateTime? Date{ get; set; }
+        public DateTime Date{ get; set; }
 
         [Required]
         public bool HasCyrillic { get; set; }

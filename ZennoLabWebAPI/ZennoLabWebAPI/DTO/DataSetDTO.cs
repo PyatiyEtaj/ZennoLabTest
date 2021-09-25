@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace ZennoLabWebAPI.DTO
         public bool HasSpecialSymbols { get; set; }        
         public bool CaseSensitivity { get; set; }        
         public DataSetAnswersLocationEnum AnswersLocation { get; set; }
-        
+        public IFormFile ZipArchiveImages { get; set; }
+
     }
 }
