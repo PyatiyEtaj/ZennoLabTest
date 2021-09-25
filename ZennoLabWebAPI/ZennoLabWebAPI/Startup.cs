@@ -43,7 +43,18 @@ namespace ZennoLabWebAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
-
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(
+                            @"http://192.168.1.114:8080"
+                        )
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,6 +65,8 @@ namespace ZennoLabWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZennoLabWebAPI v1"));
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 

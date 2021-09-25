@@ -1,17 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <DataSetTable />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DataSetTable from "./components/DataSetTable/DataSetTable.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    DataSetTable
   }
-}
+};
 </script>
 
 <style>
