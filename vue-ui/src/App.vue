@@ -1,14 +1,17 @@
 <template>
   <DataSetTable />
+  <DataSetUploadData />
 </template>
 
 <script>
 import DataSetTable from "./components/DataSetTable/DataSetTable.vue";
+import DataSetUploadData from "./components/DataSetUploadData/DataSetUploadData.vue";
 
 export default {
   name: "App",
   components: {
-    DataSetTable
+    DataSetTable,
+    DataSetUploadData
   }
 };
 </script>
