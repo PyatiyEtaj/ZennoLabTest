@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZennoLabWebAPI.EntityContext;
 
 namespace ZennoLabWebAPI.Controllers
 {
@@ -11,15 +12,25 @@ namespace ZennoLabWebAPI.Controllers
     [ApiController]
     public class DataSetController : ControllerBase
     {
+        private DataBaseContext _db;
+
+        public DataSetController(DataBaseContext context)
+        {
+            _db = context;
+        }
+
         /// <summary>
         /// Простой Get
         /// </summary>
         /// <response code="200">Все замечательно</response>
         [HttpGet]
+        [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<string> Get()
+        public ActionResult<List<DataSet>> Get()
         {
-            return Ok("hello");
+            var result = _db.DataSets.Select(x => x).ToList();
+            return Ok(result);
         }
+
     }
 }
