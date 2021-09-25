@@ -6,3 +6,5 @@ services:
     environment:
       SA_PASSWORD: "!Qaz2wsX#edc"
       ACCEPT_EULA: "Y"
+    ports:
+      - 1433:1433
