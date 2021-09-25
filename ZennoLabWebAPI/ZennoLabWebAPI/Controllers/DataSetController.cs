@@ -11,11 +11,10 @@ using ZennoLabWebAPI.Services;
 
 namespace ZennoLabWebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class DataSetController : ControllerBase
     {
-        private DataBaseContext _db;
         private readonly IDataSetValidator _dataSetValidator;
         private readonly IDataSetService _dataSetService;
         private readonly DataSetDTOMapper _dataSetDTOMapper;
@@ -48,7 +47,7 @@ namespace ZennoLabWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> UploadDataSet(DataSetDTO dataSet)
+        public async Task<ActionResult<string>> UploadDataSet( [FromBody] DataSetDTO dataSet)
         {
             var result = _dataSetValidator.Validate(dataSet);
             if (!result.valid)

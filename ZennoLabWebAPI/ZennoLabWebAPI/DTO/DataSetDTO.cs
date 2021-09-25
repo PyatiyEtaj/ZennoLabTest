@@ -17,6 +17,5 @@ namespace ZennoLabWebAPI.DTO
         public bool CaseSensitivity { get; set; }        
         public DataSetAnswersLocationEnum AnswersLocation { get; set; }
         public IFormFile ZipArchiveImages { get; set; }
-
     }
 }

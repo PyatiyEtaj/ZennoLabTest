@@ -26,6 +26,8 @@ namespace ZennoLabWebAPI.Services
             dataset.Date = DateTime.UtcNow;
 
             await _db.DataSets.AddAsync(dataset);
+
+            await _db.SaveChangesAsync();
         }
     }
 }
