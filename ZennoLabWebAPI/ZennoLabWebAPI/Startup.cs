@@ -1,20 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using ZennoLabWebAPI.EntityContext;
+using ZennoLabWebAPI.Mapper;
+using ZennoLabWebAPI.Services;
 
 namespace ZennoLabWebAPI
 {
@@ -29,6 +25,14 @@ namespace ZennoLabWebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionstring = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(
+                connectionstring
+            ));
+
+            services.AddScoped<IDataSetService, DataSetService>();
+            services.AddSingleton<IDataSetValidator, DataSetValidator>();
+            services.AddSingleton<DataSetDTOMapper>();
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
@@ -39,10 +43,6 @@ namespace ZennoLabWebAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
-            var connectionstring= Environment.GetEnvironmentVariable("DB_CONNECTION");
-            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(
-                connectionstring
-            ));
 
         }
 
