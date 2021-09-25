@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      SA_PASSWORD: "!Qaz2wsX#edc"
+      ACCEPT_EULA: "Y"
