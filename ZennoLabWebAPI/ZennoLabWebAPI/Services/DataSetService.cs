@@ -16,14 +16,14 @@ namespace ZennoLabWebAPI.Services
         }
         public async Task<List<DataSet>> GetAllDataSetsAsync()
         {
-            return await Task.Run(() => _db.DataSets.Select(x => x).ToList());
+            return await Task.Run(() => _db.DataSets.Select(x => x).OrderByDescending(x => x.Date).ToList());
         }
 
         public async Task InsertDatasetAsync(DataSet dataset)
         {
             // так и не смог заставить MS SQL самостоятельно заполнять это значение
             // любое значение в атрибут DefaultValue приводит к ошибкам (SYSDATETIME, GETTIME ...)
-            dataset.Date = DateTime.UtcNow;
+            dataset.Date = DateTime.Now;
 
             await _db.DataSets.AddAsync(dataset);
 
