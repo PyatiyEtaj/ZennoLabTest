@@ -7,7 +7,3 @@
 * MSSQL
 * Vue3
 * Docker
-
-
-# Help
-* sqlcmd - docker exec -it <container id> /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P !Qaz2wsX#edc" 
