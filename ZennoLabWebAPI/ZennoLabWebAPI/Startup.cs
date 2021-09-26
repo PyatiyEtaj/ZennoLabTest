@@ -47,10 +47,7 @@ namespace ZennoLabWebAPI
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins(
-                            @"http://192.168.1.114:8080",
-                            @"http://localhost:8080"
-                        )
+                    builder.WithOrigins(Environment.GetEnvironmentVariable("CORS_ORIGINS").Split(';', StringSplitOptions.RemoveEmptyEntries))
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
