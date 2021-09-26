@@ -31,11 +31,11 @@
             class="hover:bg-gray-100"
           >
             <td class="w-2/12"></td>
-            <td class="w-5/12 px-6 py-3 text-left tracking-wider">
+            <td class="w-5/12 px-6 py-3 text-left">
               {{ set.name }}
             </td>
-            <td class="w-5/12 px-6 py-3 text-left tracking-wider">
-              {{ set.date }}
+            <td class="w-5/12 px-6 py-3 text-left">
+              {{ handsomeDate(set.date) }}
             </td>
           </tr>
         </tbody>
@@ -46,11 +46,14 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import api from "./api/api";
+import api from "./api";
+import datenormalization from "./datenormalization";
 
 export default {
   setup() {
     const datasets = ref([]);
+
+    const handsomeDate = (date) => datenormalization.normalizeDate(date);
 
     const updateDatasets = async () => {
       datasets.value = await api.getDataSetsAsync();
@@ -60,7 +63,8 @@ export default {
 
     return {
       datasets,
-      updateDatasets
+      updateDatasets,
+      handsomeDate
     };
   }
 };

@@ -78,18 +78,8 @@
 </template>
 
 <script>
-/*
-
-        <button
-          @click="uploadData"
-          class="bg-yellow-300 hover:bg-yellow-500 font-bold py-2 px-4 rounded mt-4"
-        >
-          Загрузить данные
-        </button>
-*/
-
 import { ref } from "vue";
-import api from "./api/api";
+import api from "./api";
 import ButtonWithLoading from "../ButtonWithLoading.vue";
 
 export default {
