@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ZennoLabWebAPI.DTO;
@@ -11,17 +12,21 @@ namespace ZennoLabWebAPI.Mapper
     {
         public DataSet Map(DataSetDTO dataset)
         {
-            return new DataSet
+            using (var mem = new MemoryStream())
             {
-                AnswersLocation = dataset.AnswersLocation,
-                ArchiveImages = new byte[1024],
-                HasCyrillic = dataset.HasCyrillic,
-                HasDigits = dataset.HasDigits,
-                HasLatin = dataset.HasLatin,
-                HasSpecialSymbols = dataset.HasSpecialSymbols,
-                Name = dataset.Name,
-                CaseSensitivity = dataset.CaseSensitivity,
-            };
+                dataset.ZipArchiveImages.CopyTo(mem);
+                return new DataSet
+                {
+                    AnswersLocation = dataset.AnswersLocation,
+                    ArchiveImages = mem.ToArray(),
+                    HasCyrillic = dataset.HasCyrillic,
+                    HasDigits = dataset.HasDigits,
+                    HasLatin = dataset.HasLatin,
+                    HasSpecialSymbols = dataset.HasSpecialSymbols,
+                    Name = dataset.Name,
+                    CaseSensitivity = dataset.CaseSensitivity,
+                };
+            }                
         }
     }
 }
