@@ -16,6 +16,15 @@ namespace ZennoLabWebAPI.Services
         }
         public async Task<List<DataSet>> GetAllDataSetsAsync()
         {
+            return await Task.Run(() => _db.DataSets.Select(x => new DataSet{
+                DataSetId = x.DataSetId,
+                Date = x.Date,
+                Name = x.Name
+            }).OrderByDescending(x => x.Date).ToList());
+        }
+
+        public async Task<List<DataSet>> GetAllDataSetsFullAsync()
+        {
             return await Task.Run(() => _db.DataSets.Select(x => x).OrderByDescending(x => x.Date).ToList());
         }
 

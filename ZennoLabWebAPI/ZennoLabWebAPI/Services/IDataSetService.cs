@@ -9,6 +9,7 @@ namespace ZennoLabWebAPI.Services
     public interface IDataSetService
     {
         Task<List<DataSet>> GetAllDataSetsAsync();
+        Task<List<DataSet>> GetAllDataSetsFullAsync();
         Task InsertDatasetAsync(DataSet dataset);
     }
 }
