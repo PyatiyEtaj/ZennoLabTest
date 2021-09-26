@@ -23,6 +23,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "DB_CONNECTION": "Server=localhost,1433;User=sa;Password=!Qaz2wsX#edc;Database=DataSetsDb;",
+        "CORS_ORIGINS": "http://localhost:8080;",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
