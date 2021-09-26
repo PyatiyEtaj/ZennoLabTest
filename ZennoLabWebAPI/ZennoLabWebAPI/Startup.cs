@@ -48,7 +48,8 @@ namespace ZennoLabWebAPI
                 options.AddDefaultPolicy(builder =>
                 {
                     builder.WithOrigins(
-                            @"http://192.168.1.114:8080"
+                            @"http://192.168.1.114:8080",
+                            @"http://localhost:8080"
                         )
                         .AllowCredentials()
                         .AllowAnyHeader()
@@ -67,8 +68,6 @@ namespace ZennoLabWebAPI
             }
 
             app.UseCors();
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

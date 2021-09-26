@@ -1,10 +1,37 @@
-version: '3.7'
+version: '3.4'
 
+  
 services:
+
   db:
+    container_name: 'ms-sql-db'
     image: "mcr.microsoft.com/mssql/server:2017-latest"
     environment:
       SA_PASSWORD: "!Qaz2wsX#edc"
       ACCEPT_EULA: "Y"
     ports:
       - 1433:1433
+
+  zennolabwebapi:
+    container_name: 'zenno-lab-web-api'
+    build:
+      context: .
+      dockerfile: ZennoLabWebAPI/Dockerfile
+    ports:
+      - 5000:80
+    environment:
+      - DB_CONNECTION=Server=db;User=sa;Password=!Qaz2wsX#edc;Database=DataSetsDb; 
+    depends_on:
+      - db
+  
+  vui:
+    container_name: 'vue-ui'
+    build:
+      context: .
+      dockerfile: vue-ui/Dockerfile
+    ports:
+      - 8080:80
+    environment:
+      - VUE_APP_SERVER_URL=http://localhost:5000
+    depends_on:
+      - zennolabwebapi
