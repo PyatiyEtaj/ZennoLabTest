@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZennoLabWebAPI.DTO;
-using ZennoLabWebAPI.EntityContext;
 using ZennoLabWebAPI.Mapper;
 using ZennoLabWebAPI.Services;
 
@@ -33,11 +30,11 @@ namespace ZennoLabWebAPI.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<DataSet>>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _dataSetService.GetAllDataSetsAsync();
+            return Ok(await _dataSetService.GetAllDataSetsAsync());
         }
-                
+
         /// <summary>
         /// Загрузка данных для обучения ИИ на сервер
         /// </summary>
@@ -48,7 +45,7 @@ namespace ZennoLabWebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [DisableRequestSizeLimit]
-        public async Task<ActionResult<string>> Upload( [FromForm] DataSetDTO dataSet)
+        public async Task<ActionResult<string>> Upload([FromForm] DataSetDTO dataSet)
         {
             var result = _dataSetValidator.Validate(dataSet);
             if (!result.valid)
