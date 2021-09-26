@@ -37,7 +37,7 @@ namespace ZennoLabWebAPI.Controllers
         {
             return await _dataSetService.GetAllDataSetsAsync();
         }
-
+                
         /// <summary>
         /// Загрузка данных для обучения ИИ на сервер
         /// </summary>
@@ -47,7 +47,8 @@ namespace ZennoLabWebAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> UploadDataSet( [FromBody] DataSetDTO dataSet)
+        [DisableRequestSizeLimit]
+        public async Task<ActionResult<string>> Upload( [FromForm] DataSetDTO dataSet)
         {
             var result = _dataSetValidator.Validate(dataSet);
             if (!result.valid)
@@ -57,7 +58,5 @@ namespace ZennoLabWebAPI.Controllers
 
             return Ok();
         }
-
-
     }
 }

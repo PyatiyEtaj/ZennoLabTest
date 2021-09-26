@@ -6,6 +6,8 @@
         NameIsNull,
         NameIsSmallOrBig,
         ContainsCaptcha,
-        DataSetHasNotAnyOfTheSymbolsType
+        DataSetHasNotAnyOfTheSymbolsType,
+        ZipAnswersFileError,
+        ZipFilesCount
     }
 }

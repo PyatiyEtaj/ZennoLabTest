@@ -14,6 +14,12 @@ namespace ZennoLabWebAPI.Services.Validators
             _errors.Add(
                 DataSetValidatorErrorEnum.DataSetHasNotAnyOfTheSymbolsType,
                 "Должно быть выбрано как минимум одно из: 'Содержит кириллицу','Содержит латиницу', 'Содержит цифры'");
+            _errors.Add(DataSetValidatorErrorEnum.ZipAnswersFileError, "Файл с ответами содержит не корректные данные");
+            _errors.Add(
+                DataSetValidatorErrorEnum.ZipFilesCount, 
+                "Количество картинок, находящихся в архиве, начинается c диапазона 2000-3000 с увеличением обеих границ " +
+                "на 3000 за каждую настройку из: 'Содержит кириллицу', 'Содержит латиницу', 'Содержитцифры', 'Содержит " +
+                "специальные символы', 'Чувствительность к регистру'");
         }
 
         public static string GetMessage(DataSetValidatorErrorEnum msg) => _errors[msg];

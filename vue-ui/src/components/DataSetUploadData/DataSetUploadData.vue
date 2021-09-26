@@ -54,41 +54,78 @@
       <div class="shadow-lg py-2">
         <span class="font-bold">Загрузка ZIP архива</span>
         <div>
-          <input type="file" id="file" ref="zipArchive"/>
+          <input type="file" id="file" ref="zipArchive" />
         </div>
       </div>
-      <div class="mt-5">
-        <button
-          @click="uploadData"
-          class="bg-yellow-300 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
-        >
-          Загрузить данные
-        </button>
+      <div class="w-5/12">
+        <div>
+          <span v-if="!uploadResult.isok" class="text-red-600 italic text-sm ">
+            {{ uploadResult.message }}</span
+          >
+        </div>
+      </div>
+      <div>
+        <button-with-loading
+          class="mt-4"
+          :name="'Загрузить данные'"
+          :onClick="uploadData"
+          :loadingName="'Проверка данных'"
+          :activator="awaitingAnswerFromServer"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+/*
+
+        <button
+          @click="uploadData"
+          class="bg-yellow-300 hover:bg-yellow-500 font-bold py-2 px-4 rounded mt-4"
+        >
+          Загрузить данные
+        </button>
+*/
+
 import { ref } from "vue";
+import api from "./api/api";
+import ButtonWithLoading from "../ButtonWithLoading.vue";
+
 export default {
+  components: {
+    ButtonWithLoading
+  },
   setup() {
     const name = ref("");
-    const hasCyrillic = ref("");
+    const hasCyrillic = ref(false);
     const hasLatin = ref(false);
     const hasDigits = ref(false);
     const hasSpecialSymbols = ref(false);
     const caseSensitivity = ref(false);
     const answersLocation = ref(0);
     const zipArchive = ref(null);
+    const uploadResult = ref({ isok: true, message: "" });
+    const awaitingAnswerFromServer = ref(false);
     const listOfAnswersLocation = [
       "отсутствует",
       "в именах файлов",
       "в отдельном файле"
     ];
 
-    const uploadData = () => {
-      console.log(zipArchive.value.files[0]);
+    const uploadData = async () => {
+      awaitingAnswerFromServer.value = true;
+      const formData = new FormData();
+      formData.append("name", name.value);
+      formData.append("hasCyrillic", hasCyrillic.value);
+      formData.append("hasLatin", hasLatin.value);
+      formData.append("hasDigits", hasDigits.value);
+      formData.append("hasSpecialSymbols", hasSpecialSymbols.value);
+      formData.append("caseSensitivity", caseSensitivity.value);
+      formData.append("answersLocation", answersLocation.value);
+      formData.append("zipArchiveImages", zipArchive.value.files[0]);
+      uploadResult.value = await api.uploadDatasetAsync(formData);
+      awaitingAnswerFromServer.value = false;
     };
 
     return {
@@ -101,7 +138,9 @@ export default {
       answersLocation,
       listOfAnswersLocation,
       zipArchive,
-      uploadData
+      uploadData,
+      uploadResult,
+      awaitingAnswerFromServer
     };
   }
 };
