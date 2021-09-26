@@ -20,6 +20,7 @@ namespace ZennoLabWebAPI.Services.Validators
                 "Количество картинок, находящихся в архиве, начинается c диапазона 2000-3000 с увеличением обеих границ " +
                 "на 3000 за каждую настройку из: 'Содержит кириллицу', 'Содержит латиницу', 'Содержитцифры', 'Содержит " +
                 "специальные символы', 'Чувствительность к регистру'");
+            _errors.Add(DataSetValidatorErrorEnum.ZipFileError, "Критическая ошибка при обработке отправляемого файла, убедитесь, что файл является zip архивом");
         }
 
         public static string GetMessage(DataSetValidatorErrorEnum msg) => _errors[msg];

@@ -57,12 +57,10 @@
           <input type="file" id="file" ref="zipArchive" />
         </div>
       </div>
-      <div class="w-5/12">
-        <div>
-          <span v-if="!uploadResult.isok" class="text-red-600 italic text-sm ">
+      <div class="max-w-md">
+        <span v-if="!uploadResult.isok" class="text-red-600 italic text-sm ">
             {{ uploadResult.message }}</span
           >
-        </div>
       </div>
       <div>
         <button-with-loading
@@ -78,15 +76,19 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, toRefs } from "vue";
 import api from "./api";
 import ButtonWithLoading from "../ButtonWithLoading.vue";
 
 export default {
+  props: {
+    addNewSetToBegin: Function
+  },
   components: {
     ButtonWithLoading
   },
-  setup() {
+  setup(props) {
+    const { addNewSetToBegin } = toRefs(props);
     const name = ref("");
     const hasCyrillic = ref(false);
     const hasLatin = ref(false);
@@ -115,6 +117,12 @@ export default {
       formData.append("answersLocation", answersLocation.value);
       formData.append("zipArchiveImages", zipArchive.value.files[0]);
       uploadResult.value = await api.uploadDatasetAsync(formData);
+      if (uploadResult.value.isok) {
+        addNewSetToBegin.value({
+          name: name.value,
+          date: new Date()
+        });
+      }
       awaitingAnswerFromServer.value = false;
     };
 

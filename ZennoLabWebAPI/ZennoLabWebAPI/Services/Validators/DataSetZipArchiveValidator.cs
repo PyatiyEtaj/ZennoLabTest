@@ -67,28 +67,38 @@ namespace ZennoLabWebAPI.Services.Validators
 
         private bool CheckFilesCount(ZipArchive zip, int mul)
         {
-            return zip.Entries.Count > (3000 * mul + 1) || zip.Entries.Count < (2000 * mul + 1);
+            return zip.Entries.Count >= (2000 * mul - 1) && zip.Entries.Count <= (3000 * mul + 1);
         }
         //---------------------------
 
         public DataSetValidatorErrorEnum Validate(DataSetDTO dataset)
         {
-            using (var zip = new ZipArchive(dataset.ZipArchiveImages.OpenReadStream(), ZipArchiveMode.Read))
-            {
-                //if (!CheckFilesCount(zip, Mul(dataset)))
-                //    return DataSetValidatorErrorEnum.ZipFilesCount;
+            if (dataset.ZipArchiveImages is null)
+                return DataSetValidatorErrorEnum.ZipFileError;
 
-                switch (dataset.AnswersLocation)
+            try
+            {
+                using (var zip = new ZipArchive(dataset.ZipArchiveImages.OpenReadStream(), ZipArchiveMode.Read))
                 {
-                    case EntityContext.DataSetAnswersLocationEnum.InName:
-                        break;
-                    case EntityContext.DataSetAnswersLocationEnum.InFile:
-                        return CheckAnswers(zip);
-                    case EntityContext.DataSetAnswersLocationEnum.None:
-                    default:
-                        break;
+                    if (!CheckFilesCount(zip, Mul(dataset)))
+                        return DataSetValidatorErrorEnum.ZipFilesCount;
+
+                    switch (dataset.AnswersLocation)
+                    {
+                        case EntityContext.DataSetAnswersLocationEnum.InName:
+                            break;
+                        case EntityContext.DataSetAnswersLocationEnum.InFile:
+                            return CheckAnswers(zip);
+                        case EntityContext.DataSetAnswersLocationEnum.None:
+                        default:
+                            break;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                return DataSetValidatorErrorEnum.ZipFileError;
+            }            
 
             return DataSetValidatorErrorEnum.Ok;
         }

@@ -45,25 +45,17 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import api from "./api";
 import datenormalization from "./datenormalization";
 
 export default {
+  props: {
+    datasets: Array,
+    updateDatasets: Function
+  },
+
   setup() {
-    const datasets = ref([]);
-
-    const handsomeDate = (date) => datenormalization.normalizeDate(date);
-
-    const updateDatasets = async () => {
-      datasets.value = await api.getDataSetsAsync();
-    };
-
-    onMounted(updateDatasets);
-
+    const handsomeDate = date => datenormalization.normalizeDate(date);  
     return {
-      datasets,
-      updateDatasets,
       handsomeDate
     };
   }

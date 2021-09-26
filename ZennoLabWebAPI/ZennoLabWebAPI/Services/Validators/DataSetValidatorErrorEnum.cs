@@ -8,6 +8,7 @@
         ContainsCaptcha,
         DataSetHasNotAnyOfTheSymbolsType,
         ZipAnswersFileError,
-        ZipFilesCount
+        ZipFilesCount,
+        ZipFileError
     }
 }
